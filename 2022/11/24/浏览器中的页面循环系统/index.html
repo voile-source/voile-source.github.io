@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    
+    <title>浏览器中的页面循环系统 - volit的个人博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="浏览器中的页面循环系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器中的页面循环系统">
+<meta property="og:url" content="http://example.com/2022/11/24/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="volit的个人博客">
+<meta property="og:description" content="浏览器中的页面循环系统">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-24T02:24:28.000Z">
+<meta property="article:modified_time" content="2022-11-24T02:50:57.902Z">
+<meta property="article:author" content="volit">
+<meta property="article:tag" content="前端基础">
+<meta property="article:tag" content="浏览器">
+<meta property="article:tag" content="事件循环">
+<meta name="twitter:card" content="summary">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669259032269">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1669259032269">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1669259032269">
+        
+    
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211033470.webp)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="volit" class="mdui-btn mdui-btn-icon"><img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211032374.webp" alt="volit"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="volit">
+            <img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211032374.webp" alt="volit" alt="volit">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>5</div>
+        <div><span>标签</span>10</div>
+        <div><span>分类</span>4</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/20238211"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/nexmoe/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章分类</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/教程/">教程</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/读书笔记/浏览器/">浏览器</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/教程/网站搭建/">网站搭建</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/读书笔记/">读书笔记</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/V8/" style="font-size: 10px;">V8</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">个人博客</a> <a href="/tags/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" style="font-size: 10px;">事件循环</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">前端基础</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 10px;">教程</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 20px;">浏览器</a> <a href="/tags/%E9%87%8D%E6%8E%92/" style="font-size: 10px;">重排</a> <a href="/tags/%E9%87%8D%E7%BB%98/" style="font-size: 10px;">重绘</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(10);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        <!-- 一言 -->
+<div class="nexmoe-widget-wrap">
+  <h3 class="nexmoe-widget-title">
+    一言
+  </h3>
+  <div class="nexmoe-widget">
+    <ul class="hitokoto-box">
+      <li id="hitokoto_text_parent" class="hitokoto-text" hitokotoCategory="">
+        <a href="#" id="hitokoto_text">
+          
+        </a>
+        <a href="#" id="hitokoto_error_text" style="display: none;">
+          
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  let hitokotoText = document.getElementById('hitokoto_text')
+  let hitokotoErroText = document.getElementById('hitokoto_error_text')
+  let hitokotoCategory = document.getElementById('hitokoto_text_parent').getAttribute('hitokotoCategory')
+  window.onload = function () {
+    let url = 'https://v1.hitokoto.cn'
+    if (hitokotoCategory) {
+      url += '?c=' + hitokotoCategory
+    }
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        hitokotoText.innerText = "「 " + data.hitokoto + " 」 from " + data.from
+        hitokotoText.href = 'https://hitokoto.cn/?uuid=' + data.uuid
+      })
+      .catch((reason) => {
+        console.error(11, reason)
+        hitokotoText.style.display = 'none'
+        hitokotoErroText.style.display = 'block'
+      })
+  }
+</script>
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/11/24/Chrome%E6%B5%8F%E8%A7%88%E5%99%A8V8%E5%BC%95%E6%93%8E%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">Chrome浏览器V8引擎工作原理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/24/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/">浏览器中的页面循环系统</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/24/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84JavaScript%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/">浏览器中的JavaScript执行机制</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/24/%E5%AE%8F%E8%A7%82%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8/">宏观视角下的浏览器</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/19/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF/">从零搭建个人博客项目并通过github部署上线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://xiaoshu.app/" target="_blank" >
+                    <img src="" alt=""></img>
+                    <p></p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 volit
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+    
+        <div class="nexmoe-post-cover"> 
+            <img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211033470.webp" alt="浏览器中的页面循环系统" loading="lazy">
+            <h1>浏览器中的页面循环系统</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2022年11月24日</a>
+        
+            <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>
+        
+        
+    <a><i class="nexmoefont icon-areachart"></i>约1.9k字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要7分钟</a>
+
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <p>浏览器中的页面循环系统</p>
+<span id="more"></span>
+
+<p>@[TOC]</p>
+<h1 id="一、执行上下文"><a href="#一、执行上下文" class="headerlink" title="一、执行上下文"></a>一、执行上下文</h1><blockquote>
+<p>JavaScript执行一段代码时的运行环境</p>
+</blockquote>
+<h2 id="1-变量提升"><a href="#1-变量提升" class="headerlink" title="1.变量提升"></a>1.变量提升</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JavaScript代码执行过程中，JavaScript引擎把变量把变量的声明部分和函数的声明部分提升到代码开头的“行为”。变量被提升后，会给变量设置默认值undefined。</p>
+<h2 id="2-同名变量"><a href="#2-同名变量" class="headerlink" title="2.同名变量"></a>2.同名变量</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当JavaScript代码中出现同名的变量或者函数时，后定义的变量（如果有赋值的话)会覆盖之前定义的变量。</p>
+<h2 id="3-产生执行上下文的条件"><a href="#3-产生执行上下文的条件" class="headerlink" title="3.产生执行上下文的条件"></a>3.产生执行上下文的条件</h2><p>（1）当JavaScript执行全局代码的时候，会编译全局代码并创建去全局执行上下文，而且在整个页面的生存周期内，全局执行上下文只有一份。<br>（2）当调用一个函数的时候，函数体内的代码会被编译，并创建函数执行上下文，通常情况下，函数执行结束之后，创建的函数执行上下文会被销毁。<br>（3）当使用eval函数的时候，eval的代码也会被编译，并创建执行上下文。</p>
+<h2 id="4-执行栈"><a href="#4-执行栈" class="headerlink" title="4.执行栈"></a>4.执行栈</h2><blockquote>
+<p>JavaScript通常会将执行上下文压入执行栈中，以此来管理执行上下文。</p>
+</blockquote>
+<p>（1）查看执行栈信息<br>通常在浏览器开发这工具中，可以在代码中打上断点，当执行到该代码时，执行流程会被暂停，然后可以通过浏览器中的工具看到当前调用栈的情况。<br>（2）栈溢出<br>执行栈是有大小的，当栈的执行上下文超过一定数目，JavaScript引擎就会报错（通常发生在函数的递归调用中）</p>
+<h1 id="二、块级作用域"><a href="#二、块级作用域" class="headerlink" title="二、块级作用域"></a>二、块级作用域</h1><blockquote>
+<p>由于 JavaScript 存在变量提升这种特性，从而导致了很多与直觉不符的代码，这也是 JavaScript 的一个重要设计缺陷。在ES6之前，ES的作用域只有两种：全局作用域和函数作用域。而在ES6中已经通过引入块级作用域并配合 let、const 关键字，来避开了这种设计缺陷。</p>
+</blockquote>
+<h2 id="1-变量提升带来的问题"><a href="#1-变量提升带来的问题" class="headerlink" title="1.变量提升带来的问题"></a>1.变量提升带来的问题</h2><p>（1）变量容易在不易察觉的情况下被覆盖掉<br>（2）本应销毁的变量没有被销毁</p>
+<h2 id="2-JavaScript如何实现块级作用域"><a href="#2-JavaScript如何实现块级作用域" class="headerlink" title="2.JavaScript如何实现块级作用域"></a>2.JavaScript如何实现块级作用域</h2><p>（1）在函数的执行过程中，函数内部通过var声明的变量，会在编译阶段全部被存放到执行上下文的变量环境中<br>（2）通过let声明的变量，在编译阶段会被存放到执行上下文的词法环境中。<br>（3）块级作用域内部的块级作用域中用let声明的变量，不会在函数开始执行的时候就加入到词法环境中，而是会在执行到当前块级作用域时，才加入到词法环境中，并以此形成了一个小型栈结构。</p>
+<h1 id="三、作用域链"><a href="#三、作用域链" class="headerlink" title="三、作用域链"></a>三、作用域链</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">bar</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(myName)<br>&#125;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">var</span> myName = <span class="hljs-string">&quot;name1&quot;</span><br>    <span class="hljs-title function_">bar</span>()<br>&#125;<br><span class="hljs-keyword">var</span> myName = <span class="hljs-string">&quot;name2&quot;</span><br><span class="hljs-title function_">foo</span>()<br></code></pre></td></tr></table></figure>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先来判断一下以上代码的输出结果，按照一般的思路，先查找栈顶是否存在 myName 变量，但是这里没有，所以接着往下查找 foo 函数中的变量。在 foo 函数中查找到了 myName 变量，这时候就使用 foo 函数中的 myName。<br>如果按照这个思路来执行的话，最后输出的结果应该是name1，但是最后实际的结果其实是name2。至于为什么会产生这样的结果，主要是因为作用域链的存在。</p>
+<h2 id="1-outer"><a href="#1-outer" class="headerlink" title="1.outer"></a>1.outer</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在每个执行上下文的变量环境中，都包含了一个外部引用，用来指向外部的执行上下文，我们把这个外部引用称为outer。</p>
+<h2 id="2-变量查找"><a href="#2-变量查找" class="headerlink" title="2.变量查找"></a>2.变量查找</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当一段代码使用了一个变量是，JavaScript引擎首先会在“当前的执行上下文”中查找该变量，如果当前的变量环境中没有查找到该变量，那么JavaScript引擎会继续在outer所指向的执行上下文中查找。我们将这个查找的链条称为作用域链。</p>
+<h2 id="3-词法作用域"><a href="#3-词法作用域" class="headerlink" title="3.词法作用域"></a>3.词法作用域</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;词法作用域就是指作用域是由代码中函数声明的位置来决定的，所以词法作用域是静态的作用域，通过它就能够预测代码在执行过程中如何查找标识符。<br><em>ps.词法作用域是代码编译阶段就决定好的，和函数是怎么调用的没有关系。</em></p>
+<h1 id="四、闭包"><a href="#四、闭包" class="headerlink" title="四、闭包"></a>四、闭包</h1><h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在 JavaScript 中，根据词法作用域的规则，内部函数总是可以访问其外部函数中声明的变量，当通过调用一个外部函数返回一个内部函数后，即使该外部函数已经执行结束了，但是内部函数引用外部函数的变量依然保存在内存中，我们就把这些变量的集合称为闭包。</p>
+<h2 id="2-闭包是怎么回收的"><a href="#2-闭包是怎么回收的" class="headerlink" title="2.闭包是怎么回收的"></a>2.闭包是怎么回收的</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通常，如果引用闭包的函数是一个全局变量，那么闭包会一直存在直到页面关闭。否则，如果引用闭包的函数是个局部变量，等函数销毁后，在下次 JavaScript 引擎执行垃圾回收时，判断闭包这块内容如果已经不再被使用了，那么 JavaScript 引擎的垃圾回收器就会回收这块内存。<br>ps.如果该闭包会一直使用，那么它可以作为全局变量而存在；但如果使用频率不高，而且占用内存又比较大的话，那就尽量让它成为一个局部变量。</p>
+<h1 id="五、this"><a href="#五、this" class="headerlink" title="五、this"></a>五、this</h1><blockquote>
+<p>this是和执行上下文绑定的</p>
+</blockquote>
+<h2 id="1-this分类"><a href="#1-this分类" class="headerlink" title="1.this分类"></a>1.this分类</h2><blockquote>
+<p>因为this是和全局上下文绑定的，所以this同样分为：全局this、函数this和eval中的this</p>
+</blockquote>
+<h2 id="2-全局上下文中的this"><a href="#2-全局上下文中的this" class="headerlink" title="2.全局上下文中的this"></a>2.全局上下文中的this</h2><blockquote>
+<p>在浏览器环境中，全局this指向的是window对象</p>
+</blockquote>
+<h2 id="3-函数执行上下中的this"><a href="#3-函数执行上下中的this" class="headerlink" title="3.函数执行上下中的this"></a>3.函数执行上下中的this</h2><p>（1）通过call,apply,bind方法指定<br>（2）通过对象调用的方法的this指向该对象<br>（3）在全局环境中调用一个函数，函数内部的 this 指向的是全局变量 window</p>
+<h2 id="4-this设计的缺陷"><a href="#4-this设计的缺陷" class="headerlink" title="4.this设计的缺陷"></a>4.this设计的缺陷</h2><p>（1）嵌套函数中的 this 不会从外层函数中继承</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> myObj = &#123;<br>  name : <span class="hljs-string">&quot;极客时间&quot;</span>, <br>  <span class="hljs-attr">showThis</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>)<br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">bar</span>(<span class="hljs-params"></span>)&#123;<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>)&#125;<br>    <span class="hljs-title function_">bar</span>()<br>  &#125;<br>&#125;<br>myObj.<span class="hljs-title function_">showThis</span>()<br></code></pre></td></tr></table></figure>
+
+<p>以上代码中bar()内的this指向的是全局变量window，可以通过一个小技巧来解决</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> myObj = &#123;<br>  name : <span class="hljs-string">&quot;极客时间&quot;</span>, <br>  <span class="hljs-attr">showThis</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>)<br>    <span class="hljs-keyword">let</span> self = <span class="hljs-variable language_">this</span><br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">bar</span>(<span class="hljs-params"></span>)&#123;<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(self)&#125;<br>    <span class="hljs-title function_">bar</span>()<br>  &#125;<br>&#125;<br>myObj.<span class="hljs-title function_">showThis</span>()<br></code></pre></td></tr></table></figure>
+
+<p>或者使用箭头函数，ES6中箭头函数并不会创建自身的执行上下文，所以箭头函数中的this指向取决于它的外部函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> myObj = &#123;<br>  name : <span class="hljs-string">&quot;极客时间&quot;</span>, <br>  <span class="hljs-attr">showThis</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>)<br>    <span class="hljs-keyword">let</span> <span class="hljs-title function_">bar</span> = (<span class="hljs-params"></span>)=&gt;&#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>)            <br>    &#125;<br>    <span class="hljs-title function_">bar</span>()<br>  &#125;<br>&#125;<br>myObj.<span class="hljs-title function_">showThis</span>()<br></code></pre></td></tr></table></figure>
+
+<p>(2)普通函数中的this默认指向全局变量window<br>ps.在严格模式下，默认执行一个函数，其函数的执行上下文中的 this 值是 undefined</p>
+
+    <p></p>
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>volit<br>
+        <strong>本文链接：</strong><a href="http://example.com/2022/11/24/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;11&#x2F;24&#x2F;%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;11&#x2F;24&#x2F;%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" rel="tag">事件循环</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/" rel="tag">前端基础</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">1.</span> <span class="toc-text">一、执行上下文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87"><span class="toc-number">1.1.</span> <span class="toc-text">1.变量提升</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%90%8C%E5%90%8D%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">2.同名变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%BA%A7%E7%94%9F%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">3.产生执行上下文的条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%89%A7%E8%A1%8C%E6%A0%88"><span class="toc-number">1.4.</span> <span class="toc-text">4.执行栈</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">2.</span> <span class="toc-text">二、块级作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">1.变量提升带来的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-JavaScript%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">2.2.</span> <span class="toc-text">2.JavaScript如何实现块级作用域</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE"><span class="toc-number">3.</span> <span class="toc-text">三、作用域链</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-outer"><span class="toc-number">3.1.</span> <span class="toc-text">1.outer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8F%98%E9%87%8F%E6%9F%A5%E6%89%BE"><span class="toc-number">3.2.</span> <span class="toc-text">2.变量查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%AF%8D%E6%B3%95%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">3.3.</span> <span class="toc-text">3.词法作用域</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%97%AD%E5%8C%85"><span class="toc-number">4.</span> <span class="toc-text">四、闭包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%9A%E4%B9%89"><span class="toc-number">4.1.</span> <span class="toc-text">1.定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%97%AD%E5%8C%85%E6%98%AF%E6%80%8E%E4%B9%88%E5%9B%9E%E6%94%B6%E7%9A%84"><span class="toc-number">4.2.</span> <span class="toc-text">2.闭包是怎么回收的</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81this"><span class="toc-number">5.</span> <span class="toc-text">五、this</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-this%E5%88%86%E7%B1%BB"><span class="toc-number">5.1.</span> <span class="toc-text">1.this分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%85%A8%E5%B1%80%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%AD%E7%9A%84this"><span class="toc-number">5.2.</span> <span class="toc-text">2.全局上下文中的this</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E4%B8%AD%E7%9A%84this"><span class="toc-number">5.3.</span> <span class="toc-text">3.函数执行上下中的this</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-this%E8%AE%BE%E8%AE%A1%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">5.4.</span> <span class="toc-text">4.this设计的缺陷</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="搜索"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1669259032284"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
