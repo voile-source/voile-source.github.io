@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    
+    <title>宏观视角下的浏览器 - volit的个人博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="浏览器进程的相关内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="宏观视角下的浏览器">
+<meta property="og:url" content="http://example.com/2022/11/24/%E5%AE%8F%E8%A7%82%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8/index.html">
+<meta property="og:site_name" content="volit的个人博客">
+<meta property="og:description" content="浏览器进程的相关内容">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211241012796.webp">
+<meta property="article:published_time" content="2022-11-24T02:22:17.000Z">
+<meta property="article:modified_time" content="2022-11-25T04:55:03.413Z">
+<meta property="article:author" content="volit">
+<meta property="article:tag" content="前端基础">
+<meta property="article:tag" content="浏览器">
+<meta property="article:tag" content="重排">
+<meta property="article:tag" content="重绘">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211241012796.webp">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669358395172">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1669358395172">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1669358395172">
+        
+    
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211033470.webp)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="volit" class="mdui-btn mdui-btn-icon"><img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211032374.webp" alt="volit"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="volit">
+            <img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211032374.webp" alt="volit" alt="volit">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>5</div>
+        <div><span>标签</span>10</div>
+        <div><span>分类</span>3</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/20238211"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/nexmoe/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章分类</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/教程/">教程</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/读书笔记/浏览器/">浏览器</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/读书笔记/">读书笔记</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/V8/" style="font-size: 10px;">V8</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">个人博客</a> <a href="/tags/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" style="font-size: 10px;">事件循环</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">前端基础</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 10px;">教程</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 20px;">浏览器</a> <a href="/tags/%E9%87%8D%E6%8E%92/" style="font-size: 10px;">重排</a> <a href="/tags/%E9%87%8D%E7%BB%98/" style="font-size: 10px;">重绘</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(10);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        <!-- 一言 -->
+<div class="nexmoe-widget-wrap">
+  <h3 class="nexmoe-widget-title">
+    一言
+  </h3>
+  <div class="nexmoe-widget">
+    <ul class="hitokoto-box">
+      <li id="hitokoto_text_parent" class="hitokoto-text" hitokotoCategory="">
+        <a href="#" id="hitokoto_text">
+          
+        </a>
+        <a href="#" id="hitokoto_error_text" style="display: none;">
+          
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  let hitokotoText = document.getElementById('hitokoto_text')
+  let hitokotoErroText = document.getElementById('hitokoto_error_text')
+  let hitokotoCategory = document.getElementById('hitokoto_text_parent').getAttribute('hitokotoCategory')
+  window.onload = function () {
+    let url = 'https://v1.hitokoto.cn'
+    if (hitokotoCategory) {
+      url += '?c=' + hitokotoCategory
+    }
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        hitokotoText.innerText = "「 " + data.hitokoto + " 」 from " + data.from
+        hitokotoText.href = 'https://hitokoto.cn/?uuid=' + data.uuid
+      })
+      .catch((reason) => {
+        console.error(11, reason)
+        hitokotoText.style.display = 'none'
+        hitokotoErroText.style.display = 'block'
+      })
+  }
+</script>
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/11/24/Chrome%E6%B5%8F%E8%A7%88%E5%99%A8V8%E5%BC%95%E6%93%8E%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">Chrome浏览器V8引擎工作原理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/24/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%BE%AA%E7%8E%AF%E7%B3%BB%E7%BB%9F/">浏览器中的页面循环系统</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/24/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84JavaScript%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/">浏览器中的JavaScript执行机制</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/24/%E5%AE%8F%E8%A7%82%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8/">宏观视角下的浏览器</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/19/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF/">从零搭建个人博客项目并通过github部署上线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://xiaoshu.app/" target="_blank" >
+                    <img src="" alt=""></img>
+                    <p></p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 volit
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+    
+        <div class="nexmoe-post-cover absolute" style="padding-top: 41.66666666666667%;"> 
+            <img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251251660.webp" alt="宏观视角下的浏览器" loading="lazy">
+            <h1>宏观视角下的浏览器</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2022年11月24日</a>
+        
+            <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a><a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>
+        
+        
+    <a><i class="nexmoefont icon-areachart"></i>约2.8k字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要9分钟</a>
+
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <p>浏览器进程的相关内容</p>
+<span id="more"></span>
+
+<p>@[TOC]目录</p>
+<h3 id="一、Chrome架构"><a href="#一、Chrome架构" class="headerlink" title="一、Chrome架构"></a>一、Chrome架构</h3><h5 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a><strong>进程和线程</strong></h5><blockquote>
+<p>计算机中的并行处理就是同一时刻处理多个任务</p>
+</blockquote>
+<p>1.一个进程就是一个程序的运行实例。</p>
+<p>2.进程和线程之间的关系</p>
+<p>（1）进程中的任意一线程执行出错，都会导致整个进程的崩溃</p>
+<p>（2）线程之间共享进程中数据</p>
+<p>（3）当一个进程关闭之后，操作系统会回收进程占用的所有内存</p>
+<p>（4）进程之间的内容相互隔离</p>
+<p>3.早期的浏览器都是单进程浏览器，所有的操作都在浏览器主进程中进行，多个功能模块运行在一个进程里，是导致单进程浏览器不稳定、不流畅和不安全的一个主要因素。</p>
+<p>4.现代Chrome浏览器包括以下几个进程</p>
+<p>（1）浏览器进程。主要负责界面显示、用户交互、子进程管理，同时提供存储等功能。</p>
+<p>（2）渲染进程。核心任务是将 HTML、CSS 和 JavaScript 转换为用户可以与之交互的网页。</p>
+<p>（3）GPU 进程。 绘制浏览器UI和网页内容。</p>
+<p>（4）网络进程。主要负责页面的网络资源加载。</p>
+<p>（5）插件进程。主要是负责插件的运行，因插件易崩溃，所以需要通过插件进程来隔离，以保证插件进程崩溃不会对浏览器和页面造成影响。</p>
+<p>5.多进程带来的问题</p>
+<p>（1）更高的资源占用</p>
+<p>（2）更负责的体系架构</p>
+<h3 id="二、TCP协议"><a href="#二、TCP协议" class="headerlink" title="二、TCP协议"></a>二、TCP协议</h3><h5 id="1-IP（网际）协议"><a href="#1-IP（网际）协议" class="headerlink" title="1.IP（网际）协议"></a>1.IP（网际）协议</h5><blockquote>
+<p>通过IP地址信息把数据包送达目的主机</p>
+</blockquote>
+<h5 id="2-UDP-用户数据包）协议"><a href="#2-UDP-用户数据包）协议" class="headerlink" title="2.UDP(用户数据包）协议"></a>2.UDP(用户数据包）协议</h5><p>通过端口号把数据包发送给正确的程序</p>
+<h5 id="3-TCP-传输控制）协议"><a href="#3-TCP-传输控制）协议" class="headerlink" title="3.TCP(传输控制）协议"></a>3.TCP(传输控制）协议</h5><p>一种面向连接的、可靠的、基于字节流的传输层通信协议</p>
+<p>（1）使用UDP传输数据的问题</p>
+<ul>
+<li>数据包在传输的过程中容易丢失</li>
+<li>大文件会被拆分成很多小的数据包来传输，这些小的数据包会经过不同的路由，并在不同的时间到达接收端，而UDP协议并不知道如何组装这些数据包，从而包这些数据包还原成完整的文件。</li>
+</ul>
+<p>（2）TCP协议的特点</p>
+<ul>
+<li>对于数据包丢失的情况，TCP提供重传机制</li>
+<li>TCP引入了数据包排序机制，用来保证把乱序的数据包组合成一个完整的文件</li>
+</ul>
+<h3 id="三、HTTP请求流程"><a href="#三、HTTP请求流程" class="headerlink" title="三、HTTP请求流程"></a>三、HTTP请求流程</h3><blockquote>
+<p>HTTP协议是一种允许浏览器向服务器获取资源的协议，是Web的基础</p>
+</blockquote>
+<h5 id="1-浏览器端发起-HTTP-请求流程"><a href="#1-浏览器端发起-HTTP-请求流程" class="headerlink" title="1.浏览器端发起 HTTP 请求流程"></a>1.浏览器端发起 HTTP 请求流程</h5><p>（1）构建请求</p>
+<p>首先，浏览器构建请求行信息，构建好后，浏览器准备发起网络请求</p>
+<p>（2）查找缓存</p>
+<p>在真正发起网络请求之前，浏览器会在浏览器缓存中查询是否有要请求的文件。</p>
+<p>（3）准备IP地址和端口</p>
+<p>浏览器首先会请求DNS返回对应域名的IP，如果已经被浏览器DNS缓存过了，会直接返回对应IP，否则会去向DNS服务器查询。再拿到IP地址之后，获取URL中的端口号，否则默认是HTTP协议的80端口</p>
+<p>（4）等待TCP队列</p>
+<p>在Chrome浏览器下，同一域名同时最多只能建立6个TCP连接，超出的TCP连接会进入派对等待状态，直至进行中的请求完成。</p>
+<p>（5）建立TCP连接</p>
+<p>在HTTP工作开始之前，浏览器首先通过TCP与服务器建立连接</p>
+<p>（6）发送HTTP请求</p>
+<p>在连接建立完成之后，浏览器向服务器发送HTTP请求。</p>
+<p>首先发送请求行，其中包含了请求方法、请求URI和HTTP协议，</p>
+<p>再发送请求行命令之后，还要以请求头形式发送一下其他的信息，如浏览器的基础信息、Cookie等</p>
+<p>如果使用Post方法，还需要通过请求体发送数据</p>
+<h5 id="2-服务器处理HTTP请求流程"><a href="#2-服务器处理HTTP请求流程" class="headerlink" title="2.服务器处理HTTP请求流程"></a>2.服务器处理HTTP请求流程</h5><p>（1）返回请求</p>
+<p>当服务器处理完请求之后，将处理结果返回给浏览器</p>
+<p>首先，返回响应行，包含协议版本和状态码，</p>
+<p>发送完响应头之后，服务器就可以继续发送响应体的数据。</p>
+<p>（2）断开连接</p>
+<p>通常，一旦服务器向客户单反悔了请求数据，它就要关闭TCP连接。但是如果响应头中加入了keep-alive，则该连接将会被保持下去</p>
+<h3 id="四、导航流程"><a href="#四、导航流程" class="headerlink" title="四、导航流程"></a>四、导航流程</h3><p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211241012796.webp" alt="image/webp" data-caption="image/webp" loading="lazy"></p>
+<ul>
+<li>首先，浏览器进程接收到用户输入的URL请求，浏览器进程便将该URL转发给网络进程</li>
+<li>然后，在网络进程中发起真正的URL请求</li>
+<li>接着网络进程接收到了响应头数据，便解析响应头数据，并将数据转发给浏览器进程</li>
+<li>浏览器进程接收到网络进程的响应头数据后，发送“提交导航”</li>
+<li>渲染进程接收到“提交导航“的消息后，便开始准备接收HTML数据，接收数据的方式是直接和网络进程建立数据通道</li>
+<li>最后渲染进程会向浏览器进程“确认提交”，这是告诉浏览器进程：“已经准备好接收和解析页面数据了”</li>
+<li>浏览器进程接收到渲染进程“提交文档”的消息之后，便开始移除之前旧的文档，然后更新浏览器进程中的页面状态。</li>
+</ul>
+<h5 id="从输入URL到页面展示的过程中发生了什么"><a href="#从输入URL到页面展示的过程中发生了什么" class="headerlink" title="从输入URL到页面展示的过程中发生了什么"></a><strong>从输入URL到页面展示的过程中发生了什么</strong></h5><p>1.用户输入</p>
+<p>当用户在地址栏中输入一个查询关键字时，地址栏会判断输入的关键字是搜索内容，还是请求的URL。</p>
+<p>（1）如果是搜索内容，地址栏会使用默认的搜索引擎来合成新的带搜索关键字的URL。</p>
+<p>（2）否则如果判断输入内容符合URL规则，那么地址栏会根据规则，把这段内容加上协议，合成完整的URL。</p>
+<p>ps.在用户输入关键字并键入了回车之后，页面将会被替换成新的页面，但在这个过程发生之前，浏览器还给了当前页面一次执行beforeunload事件的机会。如果没有监听该事件或者同意了跳转事件的进行，将会继续执行该流程。</p>
+<p>2.URL请求过程</p>
+<p>（1）首先，网络进程会查找本地缓存是否缓存了该资源。如果有缓存资源，那么直接返回资源给浏览器进程。如果在缓存中没有查找到资源，那么直接进入网络请求流程。</p>
+<p>（2）请求前的第一步是要进行 DNS 解析，以获取请求域名的服务器 IP 地址。如果请求协议是 HTTPS，那么还需要建立 TLS 连接。</p>
+<p>（3）接下来就是利用 IP 地址和服务器建立 TCP 连接。连接建立之后，浏览器端会构建请求行、请求头等信息，并把和该域名相关的 Cookie 等数据附加到请求头中，然后向服务器发送构建的请求信息。</p>
+<p>（4）服务器接收到请求信息后，会根据请求信息生成响应数据（包括响应行、响应头和响应体等信息），并发给网络进程。等网络进程接收了响应行和响应头之后，就开始解析响应头的内容了。</p>
+<p>（5）重定向，如果放回的状态码是301或者302，那么说明服务器需要浏览器重定向到其他URL。这时网络进程会从响应头的 Location 字段里面读取重定向的地址，然后再发起新的 HTTP 或者 HTTPS 请求，一切又重头开始了。</p>
+<p>（6）否则，若为200，浏览器继续进行处理，首先处理返回的文件类型，通过响应头中的Content-type。</p>
+<p>（7）确定文件类型后，准备渲染进程</p>
+<p>ps.通常情况下，浏览器为一个标签页分配一个渲染进程。若两个标签页属于同一站点（使用相同的协议和根域名），则两个标签页共享同一个线程。</p>
+<p>（8）提交文档，浏览器进程将网络进程接收到的HTML数据提交给渲染进程。</p>
+<ul>
+<li>首先当浏览器进程接收到网络进程的响应头数据之后，便向渲染进程发起“提交文档”的消息</li>
+<li>渲染进程接收到“提交文档”的消息后，会和网络进程建立传输数据的“管道”；</li>
+<li>等文档数据传输完成之后，渲染进程会返回“确认提交”的消息给浏览器进程；</li>
+<li>浏览器进程在收到“确认提交”的消息后，会更新浏览器界面状态，包括了安全状态、地址栏的 URL、前进后退的历史状态，并更新 Web 页面。</li>
+</ul>
+<p>（9）渲染阶段，一旦文档被提交，渲染进程便开始页面解析和子资源加载。</p>
+<h3 id="五、渲染流程"><a href="#五、渲染流程" class="headerlink" title="五、渲染流程"></a>五、渲染流程</h3><h5 id="1-基本流程"><a href="#1-基本流程" class="headerlink" title="1.基本流程"></a>1.基本流程</h5><p>（1）渲染进程将 HTML 内容转换为能够读懂的 DOM 树结构。</p>
+<p>（2）渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式。</p>
+<p>（3）创建布局树，并计算元素的布局信息。</p>
+<p>（4）对布局树进行分层，并生成分层树。</p>
+<p>（5）为每个图层生成绘制列表，并将其提交到合成线程。</p>
+<p>（6）合成线程将图层分成图块，并在光栅化线程池中将图块转换成位图。</p>
+<p>（7）合成线程发送绘制图块命令 DrawQuad 给浏览器进程。浏览器进程根据 DrawQuad 消息生成页面，并显示到显示器上。</p>
+<h5 id="2-重排、重绘和合成"><a href="#2-重排、重绘和合成" class="headerlink" title="2.重排、重绘和合成"></a>2.重排、重绘和合成</h5><p>（1）重排，如果修改了元素的几何位置属性，例如改变元素的宽度、高度等，那么浏览器会触发重新布局，解析之后的一系列子阶段，这个过程就叫重排。，重排需要更新完整的渲染流水线，所以开销也是最大的。</p>
+<p>（2）重绘，如果修改了元素的背景颜色，那么布局阶段将不会被执行，因为并没有引起几何位置的变换，所以就直接进入了绘制阶段，然后执行之后的一系列子阶段，这个过程就叫重绘。相较于重排操作，重绘省去了布局和分层阶段，所以执行效率会比重排操作要高一些。</p>
+<p>（3）合成，如果更改了一个既不要布局也不要绘制的属性，渲染引擎将跳过布局和绘制，只执行后续的合成操作，我们把这个过程叫做合成。相对于重绘和重排，合成能大大提升绘制效率。</p>
+
+    <p></p>
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>volit<br>
+        <strong>本文链接：</strong><a href="http://example.com/2022/11/24/%E5%AE%8F%E8%A7%82%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;11&#x2F;24&#x2F;%E5%AE%8F%E8%A7%82%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;11&#x2F;24&#x2F;%E5%AE%8F%E8%A7%82%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/" rel="tag">前端基础</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E9%87%8D%E6%8E%92/" rel="tag">重排</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E9%87%8D%E7%BB%98/" rel="tag">重绘</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81Chrome%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">一、Chrome架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.0.1.</span> <span class="toc-text">进程和线程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81TCP%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.</span> <span class="toc-text">二、TCP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-IP%EF%BC%88%E7%BD%91%E9%99%85%EF%BC%89%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.0.1.</span> <span class="toc-text">1.IP（网际）协议</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-UDP-%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE%E5%8C%85%EF%BC%89%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.UDP(用户数据包）协议</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-TCP-%E4%BC%A0%E8%BE%93%E6%8E%A7%E5%88%B6%EF%BC%89%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.0.3.</span> <span class="toc-text">3.TCP(传输控制）协议</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81HTTP%E8%AF%B7%E6%B1%82%E6%B5%81%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">三、HTTP请求流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E5%8F%91%E8%B5%B7-HTTP-%E8%AF%B7%E6%B1%82%E6%B5%81%E7%A8%8B"><span class="toc-number">3.0.1.</span> <span class="toc-text">1.浏览器端发起 HTTP 请求流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A4%84%E7%90%86HTTP%E8%AF%B7%E6%B1%82%E6%B5%81%E7%A8%8B"><span class="toc-number">3.0.2.</span> <span class="toc-text">2.服务器处理HTTP请求流程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%AF%BC%E8%88%AA%E6%B5%81%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">四、导航流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8E%E8%BE%93%E5%85%A5URL%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-number">4.0.1.</span> <span class="toc-text">从输入URL到页面展示的过程中发生了什么</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">五、渲染流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="toc-number">5.0.1.</span> <span class="toc-text">1.基本流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E9%87%8D%E6%8E%92%E3%80%81%E9%87%8D%E7%BB%98%E5%92%8C%E5%90%88%E6%88%90"><span class="toc-number">5.0.2.</span> <span class="toc-text">2.重排、重绘和合成</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="搜索"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1669358395176"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+</body>
+
+</html>
