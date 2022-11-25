@@ -19,25 +19,28 @@
 <meta property="og:site_name" content="volit的个人博客">
 <meta property="og:description" content="本教程主要描述了如何从无到有，搭建并部署个人博客项目。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pic1.58cdn.com.cn/nowater/webim/big/n_v2566f6e380b9748939b62ab95c5be82af.png">
 <meta property="og:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211034553.webp">
-<meta property="og:image" content="https://pic3.58cdn.com.cn/nowater/webim/big/n_v2b89b2405d7aa4dd2aa282ac033d38211.png">
+<meta property="og:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211502115.webp">
+<meta property="og:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251613259.webp">
+<meta property="og:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251606584.webp">
 <meta property="article:published_time" content="2022-11-19T06:07:11.000Z">
-<meta property="article:modified_time" content="2022-11-25T06:26:55.353Z">
+<meta property="article:modified_time" content="2022-11-25T08:18:39.534Z">
 <meta property="article:author" content="volit">
 <meta property="article:tag" content="教程">
 <meta property="article:tag" content="个人博客">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic1.58cdn.com.cn/nowater/webim/big/n_v2566f6e380b9748939b62ab95c5be82af.png">
+<meta name="twitter:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211034553.webp">
     
 <link rel="stylesheet" href="/lib/fancybox/fancybox.css">
 <link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669360784677">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669364740790">
     
-    <link rel="stylesheet" href="/css/style.css?v=1669360784677">
+    <link rel="stylesheet" href="/css/style.css?v=1669364740790">
+    
+        <link rel="stylesheet" href="/custom.css?v=1669364740790">
     
 <meta name="generator" content="Hexo 5.4.2"></head>
 
@@ -62,9 +65,9 @@
         </a>
     </div>
     <div class="nexmoe-count">
-        <div><span>文章</span>5</div>
-        <div><span>标签</span>10</div>
-        <div><span>分类</span>3</div>
+        <div><a href="/archive.html"><span>文章</span></a>5</div>
+        <div><a href="/archive.html"><span>标签</span></a>10</div>
+        <div><a href="/archive.html"><span>分类</span></a>3</div>
     </div>
     <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
         
@@ -171,50 +174,6 @@
   </div>
 
     
-    <!-- 一言 -->
-
-  <div class="nexmoe-widget-wrap">
-    <h3 class="nexmoe-widget-title">
-      一言
-    </h3>
-    <div class="nexmoe-widget">
-      <ul class="hitokoto-box">
-        <li id="hitokoto_text_parent" class="hitokoto-text" hitokotoCategory="">
-          <a href="#" id="hitokoto_text">
-            
-          </a>
-          <a href="#" id="hitokoto_error_text" style="display: none;">
-            
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <script>
-    let hitokotoText = document.getElementById('hitokoto_text')
-    let hitokotoErroText = document.getElementById('hitokoto_error_text')
-    let hitokotoCategory = document.getElementById('hitokoto_text_parent').getAttribute('hitokotoCategory')
-    window.onload = function () {
-      let url = 'https://v1.hitokoto.cn'
-      if (hitokotoCategory) {
-        url += '?c=' + hitokotoCategory
-      }
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          hitokotoText.innerText = "「 " + data.hitokoto + " 」 from " + data.from
-          hitokotoText.href = 'https://hitokoto.cn/?uuid=' + data.uuid
-        })
-        .catch((reason) => {
-          console.error(11, reason)
-          hitokotoText.style.display = 'none'
-          hitokotoErroText.style.display = 'block'
-        })
-    }
-  </script>
-  
-    
     
   <div class="nexmoe-widget-wrap">
     <h3 class="nexmoe-widget-title">文章归档</h3>
@@ -278,7 +237,7 @@
   <article>
       
           <div class="nexmoe-post-cover" style="padding-bottom: 41.66666666666667%;"> 
-              <img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211502115.webp" alt="从零搭建个人博客项目并通过github部署上线" loading="lazy">
+              <img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251606584.webp" alt="从零搭建个人博客项目并通过github部署上线" loading="lazy">
               <h1>从零搭建个人博客项目并通过github部署上线</h1>
           </div>
       
@@ -289,7 +248,7 @@
 
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
     
-        <a><i class="nexmoefont icon-areachart"></i>约346字</a>
+        <a><i class="nexmoefont icon-areachart"></i>约424字</a>
         <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要1分钟</a>
     
 </div>
@@ -297,18 +256,23 @@
       <p>本教程主要描述了如何从无到有，搭建并部署个人博客项目。</p>
 <span id="more"></span>
 
-<p>一、环境准备<br>1.Node.js (版本需不低于 10.13)<br>2.Git<br>二、创建hexo博客项目<br>1.全局安装hexo-cil工具</p>
+<h3 id="一、环境准备"><a href="#一、环境准备" class="headerlink" title="一、环境准备"></a>一、环境准备</h3><p>1.Node.js (版本需不低于 10.13)<br>2.Git</p>
+<h3 id="二、创建hexo博客项目"><a href="#二、创建hexo博客项目" class="headerlink" title="二、创建hexo博客项目"></a>二、创建hexo博客项目</h3><p>1.全局安装hexo-cil工具</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-string">npm</span> <span class="hljs-string">install</span> <span class="hljs-string">hexo-cil</span> <span class="hljs-string">-g</span><br></code></pre></td></tr></table></figure>
 <p>2.新建hexo项目</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-string">hexo</span> <span class="hljs-string">init</span> <span class="hljs-string">(项目名称)</span><br></code></pre></td></tr></table></figure>
 <p>等待命令执行完毕之后,会在(项目名称)目录下创建一个初始化hexo博客项目.<br>3.启动项目</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-string">hexo</span> <span class="hljs-string">server</span><br></code></pre></td></tr></table></figure>
-<p>进入项目所在目录下,输入hexo server命令启动项目,然后浏览器访问<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a><br><img data-fancybox="gallery" src="https://pic1.58cdn.com.cn/nowater/webim/big/n_v2566f6e380b9748939b62ab95c5be82af.png" alt="image.png" data-caption="image.png" loading="lazy"><br><img data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211034553.webp" alt="image.png" data-caption="image.png" loading="lazy"><br>至此一个基本的hexo博客项目就搭建好了.<br>三、部署上线<br>1.新建github仓库<br>以username.github.io命名（username是你的github名称，就是下图Owner位置的名字），必须要和左边的username相同，否则不会生效。<br><img data-fancybox="gallery" src="https://pic3.58cdn.com.cn/nowater/webim/big/n_v2b89b2405d7aa4dd2aa282ac033d38211.png" alt="图片说明" data-caption="图片说明" loading="lazy"><br>2.修改hexo项目的_config.yml文件末尾的deploy配置项</p>
+<p>进入项目所在目录下,输入hexo server命令启动项目,然后浏览器访问<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a><br><img data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211034553.webp" alt="image.png" data-caption="image.png" loading="lazy"><br><img data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211211502115.webp" alt="image.png" data-caption="image.png" loading="lazy"><br>至此一个基本的hexo博客项目就搭建好了.</p>
+<h3 id="三、部署上线"><a href="#三、部署上线" class="headerlink" title="三、部署上线"></a>三、部署上线</h3><p>1.新建github仓库<br>以username.github.io命名（username是你的github名称，就是下图Owner位置的名字），必须要和左边的username相同，否则不会生效。<br><img data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251613259.webp" alt="图片说明" data-caption="图片说明" loading="lazy"><br>2.修改hexo项目的_config.yml文件末尾的deploy配置项</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">deploy:</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span><br>  <span class="hljs-attr">repo:</span> <span class="hljs-string">git@github.com:*****.github.io.git</span><br>  <span class="hljs-attr">branch:</span> <span class="hljs-string">main</span><br></code></pre></td></tr></table></figure>
 
 <p>repo为仓库的地址,branch为博客项目上传的分支(一般默认为main)<br>3.在博客项目目录下输入命令</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">hexo</span> <span class="hljs-string">clean</span><br><span class="hljs-string">hexo</span> <span class="hljs-string">deploy</span> <span class="hljs-string">--generate</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">hexo</span> <span class="hljs-string">clean</span><br> <span class="hljs-string">hexo</span> <span class="hljs-string">deploy</span> <span class="hljs-string">--generate</span><br></code></pre></td></tr></table></figure>
 <p>等上传至github仓库成功之后,静候github pages服务部署(大约一到两分钟),之后访问username.github.io即可访问部署好的博客网站.这里放上个人已部署好的项目供大家查看效果<br><a target="_blank" rel="noopener" href="https://voilt-sourse.github.io/">https://voilt-sourse.github.io/</a></p>
+<h3 id="四、修改主题"><a href="#四、修改主题" class="headerlink" title="四、修改主题"></a>四、修改主题</h3><p>1.安装主题</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">npm</span> i hexo-theme-nexmoe@<span class="hljs-number">3</span>.<span class="hljs-number">2</span>.<span class="hljs-number">13</span><br></code></pre></td></tr></table></figure>
+<p>2.将目录下 _config.yml 文件的 theme 选项设置为 nexmoe<br>3.重启项目，主题配置完成(下方是修改了主题样式后的效果，如果修改主题样式见主题官方文档<a target="_blank" rel="noopener" href="https://docs.nexmoe.com/v3.2">Hexo Theme Nexmoe</a>)<br><img data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251606584.webp" alt="png" data-caption="png" loading="lazy"></p>
 
   </article>
 
@@ -337,18 +301,20 @@
   
       <div class="nexmoe-post-footer">
           <section class="nexmoe-comment">
-    <div id="lv-container" data-id="city" data-uid="MTAyMC81NzY2Ni8zNDEyOQ==">
-    <script id="livere-comment-js">
-    (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
-       if (typeof LivereTower === 'function') { return; }
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-       e.parentNode.insertBefore(j, e);
-    })(document, 'script');
-    </script>
-</div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '6c8d683825a673d7a0e4',
+        clientSecret: '3356d0dc7f5234861d0e46c2db8ed176d94da191',
+        id: window.location.pathname,
+        repo: 'voilt-sourse.github.io',
+        owner: 'voilt-sourse',
+        admin: 'voilt-sourse'
+    })
+    gitalk.render('gitalk')
+</script>
 </section>
       </div>
   
@@ -360,6 +326,13 @@
                       
                         
                           
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text">一、环境准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%88%9B%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">二、创建hexo博客项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF"><span class="toc-number">3.</span> <span class="toc-text">三、部署上线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">四、修改主题</span></a></li></ol>
+                                  </div>
+                              </button>
                           
                           
                       
@@ -392,7 +365,7 @@
 
  
 
-<script async src="/js/app.js?v=1669360784680"></script>
+<script async src="/js/app.js?v=1669364740794"></script>
 
 
 

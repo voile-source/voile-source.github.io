@@ -1,14 +1,14 @@
 :root {
   --gutter: 25px;
   --radius: 13px;
-  --color-primary: #ff4e6a;
+  --color-primary: #1772b4;
   --color2: #ff761e;
   --color3: #ffb900;
   --color4: #33d57a;
   --color5: #00dbff;
   --color6: #1a98ff;
   --color7: #9090ff;
-  --color-primary-bg: rgba(255,78,106,0.15);
+  --color-primary-bg: rgba(23,114,180,0.15);
   --color2-bg: rgba(255,118,30,0.15);
   --color3-bg: rgba(255,185,0,0.15);
   --color4-bg: rgba(51,213,122,0.15);

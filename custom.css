@@ -1,0 +1,33 @@
+<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>@font-face {
+  font-family: OppoSans;
+  src: url(./font/OPPOSans-R.woff2);
+}
+
+h1,h2,h3,h4,h5,h6,p {
+  font-family: OppoSans;
+}
+
+p {
+  font-size: 18px;
+}
+
+.highlight,article img {
+  border-radius: 10px;
+}
+
+#nexmoe-content .nexmoe-post .nexmoe-post-cover h1 {
+  font-weight: 600;
+}
+
+#nexmoe-header .nexmoe-count div { 
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#nexmoe-header .nexmoe-count div:hover span{ 
+  
+  font-weight: 600;
+}
