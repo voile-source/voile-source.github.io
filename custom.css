@@ -7,11 +7,11 @@ body {
   max-width: 1280px;
 }
 
-h1,h2,h3,h4,h5,h6,p {
+h1,h2,h3,h4,h5,h6,p,span,a,input,div{
   font-family: OppoSans;
 }
 
-article p {
+article p{
   margin: 5px 0;
   font-size: 18px;
   line-height: 30px;
@@ -27,6 +27,15 @@ article p {
 
 .highlight,article img {
   border-radius: 10px;
+}
+.highlight span {
+  font-size: 18px;
+  line-height: 28px;
+}
+
+#nexmoe-background .nexmoe-bg {
+  opacity: 0.2;
+  filter: blur(0px);
 }
 
 #nexmoe-content .nexmoe-post .nexmoe-post-cover h1 {
@@ -46,3 +55,6 @@ article p {
   font-weight: 600;
 }
 
+#nexmoe-content .nexmoe-post-footer {
+  background: transparent;
+}

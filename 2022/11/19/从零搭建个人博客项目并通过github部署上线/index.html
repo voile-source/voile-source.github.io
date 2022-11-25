@@ -15,7 +15,7 @@
     <meta name="description" content="本教程主要描述了如何从无到有，搭建并部署个人博客项目。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零搭建个人博客项目并通过github部署上线">
-<meta property="og:url" content="http://example.com/2022/11/19/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF/index.html">
+<meta property="og:url" content="https://voilt-sourse.github.io/2022/11/19/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF/index.html">
 <meta property="og:site_name" content="volit的个人博客">
 <meta property="og:description" content="本教程主要描述了如何从无到有，搭建并部署个人博客项目。">
 <meta property="og:locale" content="zh_CN">
@@ -36,11 +36,11 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669366811823">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669368721309">
     
-    <link rel="stylesheet" href="/css/style.css?v=1669366811823">
+    <link rel="stylesheet" href="/css/style.css?v=1669368721309">
     
-        <link rel="stylesheet" href="/custom.css?v=1669366811823">
+        <link rel="stylesheet" href="/custom.css?v=1669368721309">
     
 <meta name="generator" content="Hexo 5.4.2"></head>
 
@@ -268,7 +268,7 @@
 
 <p>repo为仓库的地址,branch为博客项目上传的分支(一般默认为main)</p>
 <h4 id="3-在博客项目目录下输入命令"><a href="#3-在博客项目目录下输入命令" class="headerlink" title="3.在博客项目目录下输入命令"></a>3.在博客项目目录下输入命令</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">hexo</span> <span class="hljs-string">clean</span><br> <span class="hljs-string">hexo</span> <span class="hljs-string">deploy</span> <span class="hljs-string">--generate</span><br></code></pre></td></tr></table></figure>
-<p>等上传至github仓库成功之后,静候github pages服务部署(大约一到两分钟),之后访问username.github.io即可访问部署好的博客网站.这里放上个人已部署好的项目供大家查看效果<br><a target="_blank" rel="noopener" href="https://voilt-sourse.github.io/">https://voilt-sourse.github.io/</a></p>
+<p>等上传至github仓库成功之后,静候github pages服务部署(大约一到两分钟),之后访问username.github.io即可访问部署好的博客网站.这里放上个人已部署好的项目供大家查看效果<br><a href="https://voilt-sourse.github.io/">https://voilt-sourse.github.io/</a></p>
 <h2 id="四、修改主题"><a href="#四、修改主题" class="headerlink" title="四、修改主题"></a>四、修改主题</h2><h4 id="1-安装主题"><a href="#1-安装主题" class="headerlink" title="1.安装主题"></a>1.安装主题</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">npm</span> i hexo-theme-nexmoe@<span class="hljs-number">3</span>.<span class="hljs-number">2</span>.<span class="hljs-number">13</span><br></code></pre></td></tr></table></figure>
 <h4 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h4><p>将目录下 _config.yml 文件的 theme 选项设置为 nexmoe</p>
 <h4 id="3-重启项目"><a href="#3-重启项目" class="headerlink" title="3.重启项目"></a>3.重启项目</h4><p>将项目重启，可以看到主题配置完成(下方是修改了主题样式后的效果，如果修改主题样式见主题官方文档<a target="_blank" rel="noopener" href="https://docs.nexmoe.com/v3.2">Hexo Theme Nexmoe</a>)<br><img data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251606584.webp" alt="png" data-caption="png" loading="lazy"></p>
@@ -279,7 +279,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>volit<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/11/19/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;11&#x2F;19&#x2F;%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;11&#x2F;19&#x2F;%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="https://voilt-sourse.github.io/2022/11/19/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF/" title="https:&#x2F;&#x2F;voilt-sourse.github.io&#x2F;2022&#x2F;11&#x2F;19&#x2F;%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;voilt-sourse.github.io&#x2F;2022&#x2F;11&#x2F;19&#x2F;%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%80%9A%E8%BF%87github%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -300,25 +300,17 @@
   
       <div class="nexmoe-post-footer">
           <section class="nexmoe-comment">
-    <div id="lv-container" data-id="city" data-uid="MTAyMC81NzY2Ni8zNDEyOQ==">
-    <script id="livere-comment-js">
-    (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
-       if (typeof LivereTower === 'function') { return; }
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-       e.parentNode.insertBefore(j, e);
-    })(document, 'script');
-    </script>
-</div>
-
-<style>
-
-#container .outline-qq {
-  border-radius: 10px !important;
-}
-</style>
+    <div class="valine"></div>
+<script src='https://cdn.jsdelivr.net/npm/valine'></script>
+<script>
+    // 使用方法 https://valine.js.org/quickstart.html
+    new Valine({
+        el: '.valine',
+        appId: 'YjghMN60uXRzD4RCAI2lvrYv-gzGzoHsz',
+        appKey: 'BKPzzS2sYXFd5rxpI7G5bQJS',
+        avatar:'monsterid' // (''/mp/identicon/monsterid/wavatar/robohash/retro/hide)
+    })
+</script>
 </section>
       </div>
   
@@ -369,7 +361,7 @@
 
  
 
-<script async src="/js/app.js?v=1669366811827"></script>
+<script async src="/js/app.js?v=1669368721313"></script>
 
 
 
