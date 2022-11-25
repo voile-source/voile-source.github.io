@@ -25,18 +25,18 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669368721322">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669372328723">
     
-    <link rel="stylesheet" href="/css/style.css?v=1669368721322">
+    <link rel="stylesheet" href="/css/style.css?v=1669372328723">
     
-        <link rel="stylesheet" href="/custom.css?v=1669368721322">
+        <link rel="stylesheet" href="/custom.css?v=1669372328723">
     
 <meta name="generator" content="Hexo 5.4.2"></head>
 
 <body class="mdui-drawer-body-left">
     
     <div id="nexmoe-background">
-        <div class="nexmoe-bg" style="background-image: url(https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251519332.webp)"></div>
+        <div class="nexmoe-bg" style="background-image: url(https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251830675.webp)"></div>
         <div class="mdui-appbar mdui-shadow-0">
             <div class="mdui-toolbar">
                 <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
@@ -48,46 +48,50 @@
     </div>
     <div id="nexmoe-header">
         <div class="nexmoe-drawer mdui-drawer" id="drawer">
-    <div class="nexmoe-avatar mdui-ripple">
-        <a href="/" title="volit">
-            <img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251444317.webp" alt="volit" alt="volit">
-        </a>
+    <div class="vl-nav vl-avatar-wrap">
+        <div class="vl-avatar-container nexmoe-avatar mdui-ripple">
+            <a href="/" title="volit">
+                <img class="vl-avatar" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211251444317.webp" alt="volit" alt="volit">
+            </a>
+        </div>
+        <div class="nexmoe-count">
+            <div><a href="/archive.html"><span>文章</span></a>5</div>
+            <div><a href="/archive.html"><span>标签</span></a>10</div>
+            <div><a href="/archive.html"><span>分类</span></a>3</div>
+        </div>
     </div>
-    <div class="nexmoe-count">
-        <div><a href="/archive.html"><span>文章</span></a>5</div>
-        <div><a href="/archive.html"><span>标签</span></a>10</div>
-        <div><a href="/archive.html"><span>分类</span></a>3</div>
-    </div>
-    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
-            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
-            <div class="mdui-list-item-content">
-                回到首页
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
-            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
-            <div class="mdui-list-item-content">
-                文章归档
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博客">
-            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
-            <div class="mdui-list-item-content">
-                关于博客
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
-            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
-            <div class="mdui-list-item-content">
-                我的朋友
-            </div>
-        </a>
-        
+    <div class="vl-nav">
+        <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+            
+            <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+                <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+                <div class="mdui-list-item-content">
+                    回到首页
+                </div>
+            </a>
+            
+            <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+                <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+                <div class="mdui-list-item-content">
+                    文章归档
+                </div>
+            </a>
+            
+            <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博客">
+                <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+                <div class="mdui-list-item-content">
+                    关于博客
+                </div>
+            </a>
+            
+            <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+                <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+                <div class="mdui-list-item-content">
+                    我的朋友
+                </div>
+            </a>
+            
+        </div>
     </div>
     <aside id="nexmoe-sidebar">
     
@@ -164,7 +168,7 @@
 
     
     
-  <div class="nexmoe-widget-wrap">
+  <div class="nexmoe-widget-wrap vl-nav">
     <h3 class="nexmoe-widget-title">文章归档</h3>
     <div class="nexmoe-widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">5</span></li></ul>
@@ -206,15 +210,17 @@
 
     
 </aside>
-    <div class="nexmoe-copyright">
-        &copy; 2022 volit
-        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
-        <br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <div style="font-size: 13px">
-            <link rel="stylesheet" href="https://widget.heweather.net/standard/static/css/he-standard.css?v=1.4.0"><script src="https://widget.heweather.net/standard/static/js/he-standard.js?v=1.4.0"></script><script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-            本站总访问量  <a id="busuanzi_value_site_pv"></a> 次<br>
-            本站访客数<a id="busuanzi_value_site_uv"></a>人次
+    <div class="vl-nav">
+        <div class="nexmoe-copyright">
+            &copy; 2022 volit
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+            & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+            <br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <div style="font-size: 15px">
+                <link rel="stylesheet" href="https://widget.heweather.net/standard/static/css/he-standard.css?v=1.4.0"><script src="https://widget.heweather.net/standard/static/js/he-standard.js?v=1.4.0"></script><script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+                本站总访问量  <a id="busuanzi_value_site_pv"></a> 次<br>
+                本站访客数<a id="busuanzi_value_site_uv"></a>人次
+            </div>
         </div>
     </div>
 </div><!-- .nexmoe-drawer -->
@@ -296,7 +302,7 @@
 
  
 
-<script async src="/js/app.js?v=1669368721323"></script>
+<script async src="/js/app.js?v=1669372328724"></script>
 
 
 
