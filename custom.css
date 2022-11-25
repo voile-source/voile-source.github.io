@@ -23,6 +23,7 @@ article p{
 #nexmoe-content .nexmoe-primary {
   margin-top: 20px;
   padding: 3vh 3vw;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .vl-nav {
@@ -36,6 +37,7 @@ article p{
   backdrop-filter: blur( 4px );
   -webkit-backdrop-filter: blur( 4px );
   border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
 }
 
@@ -142,12 +144,14 @@ article p{
 
 #nexmoe-content .nexmoe-post .nexmoe-post-copyright {
   border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 #nexmoe-content .nexmoe-post-footer {
   background: #fff;
   margin-bottom: 15px;
   border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 #nexmoe-header .nexmoe-list .nexmoe-list-item {
