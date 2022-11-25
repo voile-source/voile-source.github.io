@@ -35,9 +35,9 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669360623104">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1669360750224">
     
-    <link rel="stylesheet" href="/css/style.css?v=1669360623104">
+    <link rel="stylesheet" href="/css/style.css?v=1669360750224">
     
 <meta name="generator" content="Hexo 5.4.2"></head>
 
@@ -326,7 +326,7 @@
 <li>回收非活动对象所占据的内存。</li>
 <li>做内存整理</li>
 </ul>
-<p>（4）副垃圾回收器<br>副垃圾回收器主要负责新生区的垃圾回收。新生代中用 Scavenge 算法来处理。所谓 Scavenge 算法，是把新生代空间对半划分为两个区域，一半是对象区域，一半是空闲区域。<br><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://img-blog.csdnimg.cn/37ed46ea01cf4153a15df18f61f51b1c.png" alt="在这里插入图片描述" data-caption="在这里插入图片描述" loading="lazy"><br>新加入的对象都会加入对象区域，当对象区域快被写满的时候，就需要进行一次垃圾回收操作。</p>
+<p>（4）副垃圾回收器<br>副垃圾回收器主要负责新生区的垃圾回收。新生代中用 Scavenge 算法来处理。所谓 Scavenge 算法，是把新生代空间对半划分为两个区域，一半是对象区域，一半是空闲区域。<br><img data-fancybox="gallery" src="https://img-blog.csdnimg.cn/37ed46ea01cf4153a15df18f61f51b1c.png" alt="在这里插入图片描述" data-caption="在这里插入图片描述" loading="lazy"><br>新加入的对象都会加入对象区域，当对象区域快被写满的时候，就需要进行一次垃圾回收操作。</p>
 <p>在垃圾回收的过程中，首先对对象区域中要回收的对象做标记，标记完成之后，正式进入垃圾清理阶段。首先，副垃圾回收器会将存活对象复制到空闲区域，同时将对象有序排列起来，相当于完成了一次内存整理操作。</p>
 <p>在完成复制之后，对象区域和空闲区域进行角色翻转。这样就完成了垃圾对象回收的操作。同时这种角色翻转的操作还能让新生代中的这两块区域无限重复使用下去。<br><em>ps.因为复制操作需要时间成本，因此为了执行效率，一般新生区的空间会被设置的很小。同时，为了防止存活对象充满整个区域，JavaScript引擎采用了对象晋升策略——经过两次垃圾回收依然还存活的对象，会被移动到老生区中</em></p>
 <p>（5）主垃圾回收器<br>主垃圾回收器主要采用标记-清楚的算法进行垃圾回收。</p>
@@ -431,7 +431,7 @@
 
  
 
-<script async src="/js/app.js?v=1669360623109"></script>
+<script async src="/js/app.js?v=1669360750228"></script>
 
 
 
