@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>进程调度模拟</title>
+    <!-- <link rel="stylesheet" href="./dist/css/element-plus.css" />
+    <link rel="stylesheet" href="./dist/css/style.css" />
+    <script src="./dist/js/vue.js"></script>
+    <script src="./dist/js/element-plus.js"></script> -->
+     <!-- Import style -->
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+    <!-- Import Vue 3 -->
+    <script src="//unpkg.com/vue@3"></script>
+    <!-- Import component library -->
+    <script src="//unpkg.com/element-plus"></script>
+    <style>
+      @font-face {
+        font-family: OppoSans;
+        src: url(https://volit.top/font/MiSans-Regular.ttf);
+      }
+
+      body {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        padding: 20px 40px;
+        font-family: OppoSans;
+        overflow: hidden;
+      }
+
+      ul,li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #app {
+        width: 100%;
+        height: 100%;
+      }
+
+      .main {
+        box-sizing: border-box;
+        display: flex;
+        flex-flow: column;
+        gap: 25px;
+        width: 100%;
+        height: 100%;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: var(--el-box-shadow-light);
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .operation, .option {
+        display: flex;
+        flex-flow: column;
+        gap: 20px;
+        width: 100%;
+        height: 100%;
+      }
+
+      .monitor,.state {
+        box-sizing: border-box;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        border: 1px solid var(--el-border-color);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .state {
+        justify-content: flex-start;
+      }
+
+      .state-title {
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .state-list-title {
+        display: flex;
+        width: 100%;
+        padding: 15px 0 ;
+        border-radius: 10px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      }
+
+      .state-list-title-item {
+        width: 95px;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .state-list {
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+      }
+
+      .state-list-wrap {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        gap: 10px;
+        position: absolute;
+      }
+
+      .state-list-item {
+        width: 100%;
+      }
+
+      .state-data {
+        display: flex;
+        padding: 15px 0 ;
+        border: 1px solid var(--el-border-color);
+        border-radius: 10px;
+        /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+      }
+
+      .state-data-item {
+        width: 95px;
+        font-size: 20px;
+        text-align: center;
+      }
+
+      .que-wrap {
+        display: flex;
+        flex-flow: column;
+        gap: 8px;
+        width: 100%;
+        height: 100%;
+        /* overflow: auto; */
+      }
+
+      .que-title {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 5px;
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      .que-container {
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: var(--el-fill-color);
+        border-radius: 10px;
+        overflow: hidden;
+        overflow-x: auto;
+      }
+
+      .que {
+        box-sizing: border-box;
+        display: flex;
+        height: 100%;
+        gap: 10px;
+        padding: 10px;
+        position: absolute;
+        overflow: hidden;
+      }
+
+      .que-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 5vw;
+        height: 100%;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: var(--el-box-shadow-lighter);
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        cursor: pointer;
+      }
+
+
+
+      /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+      ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+        background-color: #f5f5f5;
+      }
+      /*定义滚动条轨道 内阴影+圆角*/
+      ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: #f5f5f5;
+      }
+      /*定义滑块 内阴影+圆角*/
+      ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        background-color: #c8c8c8;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div class="main">
+        <div class="nav">
+          <div style="display:flex;align-items:center;gap:15px;width: 100%;font-size: 20px;font-weight: 600;">
+            <el-select v-model="activeType" placeholder="选择调度算法" size="large">
+              <el-option
+                v-for="item in typeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+            <span>系统运行时间: {{systemRunTime}}</span>
+          </div>
+          <div style="display: flex;align-items:center;width: 100%;">
+            <span>请输入进程数目：</span>
+            <el-input style="flex:1 1 auto;width: 100px;margin-right: 15px;" v-model="progressCount" size="large" placeholder="请输入进程数"></el-input>
+            <el-button @click="init" size="large" type="primary">开始调度</el-button>
+            <el-button @click="block" size="large" type="danger">阻塞进程</el-button>
+            <el-button @click="awake" size="large" type="warning">激活进程</el-button>
+            <el-button @click="createPCB" size="large" type="success">增加进程</el-button>
+          </div>
+        </div>
+        <div style="display: flex;width: 100%;height: 100%;  gap: 25px;">
+          <div class="operation">
+            <div class="monitor">
+              <div class="que-wrap" v-for="(item,index) in queue" :key="item.name">
+                <span class="que-title">
+                  <span>{{item?.name}}：</span>
+                  <el-button @click="selectQueue(index)" type="primary">查看队列状态</el-button>
+                </span>
+                <div class="que-container">
+                  <div class="que que-run">
+                    <span class="que-item" v-for="(data,index) in item.data" :key="data.name+data.id">
+                      {{data.name}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="option">
+            <div class="state" >
+              <span class="state-title">{{activeQueue?.name || '队列名称'}}</span>
+              <ul class="state-list-title" >
+                <li class="state-list-title-item" class="state-list-item" v-for="title in stateTitle">
+                  {{title}}
+                </li>
+              </ul>
+              <div class="state-list">
+                <ul class="state-list-wrap">
+                  <li class="state-list-item" v-for="(nodes,index) in activeQueue?.data" :key="index">
+                    <ul class="state-data">
+                      <li class="state-data-item" v-for="node in nodes">
+                        {{node}}
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <script src="./dist/js/main.js" /> -->
+    <script>
+      // PCB(进程控制块)类
+      class PCB{
+        id; //id
+        name; //进程名称
+        priority; //优先级
+        arriveTime; //到达时间
+        waitTime;
+        needTime;  //需求运行时间
+        runTime; //已用CPU时间
+        state; //进程状态 0就绪 1运行 2阻塞 3完成
+        // blockCause; //阻塞原因
+        ratio; //响应比
+
+        //构造函数
+        constructor(id) {
+          this.id = id;
+          this.name = `进程${id}`;
+          this.priority = Math.floor(Math.random() * 20);
+          this.arriveTime = Math.floor(Math.random() * 20);
+          this.needTime = Math.floor(Math.random() * 20)+1;
+          this.runTime = 0;
+          this.waitTime = 0;
+          this.state = 0;
+          this.ratio = 0;
+        }
+      }
+
+      const runQueue = []; //运行队列
+      const readyQueue = []; //就绪队列
+      const ready1Queue = []; //一级就绪队列
+      const ready2Queue = []; //二级就绪队列
+      const blockQueue = []; //阻塞队列
+      const completeQueue = [];
+      const stateTitle = [
+        'id','名称','优先级','到达时间','等待时间','需求时间','运行时间','状态','响应比',
+      ]
+
+      const queue = [
+        {
+          name: '运行队列',
+          data: runQueue,
+        },
+        {
+          name: '一级就绪队列',
+          data: readyQueue,
+        },
+        {
+          name: '二级就绪队列',
+          data: ready1Queue,
+        },
+        {
+          name: '三级就绪队列',
+          data: ready2Queue,
+        },
+        {
+          name: '阻塞队列',
+          data: blockQueue,
+        },
+        {
+          name: '完成队列',
+          data: completeQueue,
+        },
+      ];
+      const readyQueues = [readyQueue,ready1Queue,ready2Queue];
+
+
+      const typeOptions = [
+        {
+          label:'先来先服务调度算法',
+          value: 0,
+        },
+        {
+          label:'时间片轮转调度算法',
+          value: 1,
+        },
+        {
+          label:'优先级调度算法',
+          value: 2,
+        },
+        {
+          label:'多级反馈队列调度算法',
+          value: 3,
+        },
+        {
+          label:'高响应比优先',
+          value: 4,
+        },
+      ]
+
+      const App = {
+        data() {
+          return {
+            runQueue,
+            readyQueue,
+            ready1Queue,
+            ready2Queue,
+            blockQueue,
+            completeQueue,
+            queue,
+            readyQueues,
+            stateTitle,
+            typeOptions,
+            progressCount: 3,
+            systemRunTime: 0,
+            isRuning: false,
+            timer: null,
+            timeSlice:0,
+            timeSliceSize: [3,5,10],
+            level: 0,
+            lastLevel: 2,
+            cnt: 1,
+            activeType: 0,
+            activeQueue: queue[0],
+            methodList:[this.FCFS,this.RR,this.PS,this.RRMF,this.HRN],
+          };
+        },
+        created() {
+        },
+        methods: {
+          run() {
+            this.timer = setInterval(this.option,1000);
+          },
+          block() {
+            this.$nextTick(()=>this.blockQueue.push(this.runQueue.shift()));
+          },
+          awake() {
+            if(this.blockQueue.length !== 0) {
+              this.$nextTick(()=>this.readyQueues[this.level].push(this.blockQueue.shift()));
+              if(!this.isRuning)this.progressCount=0,this.init();
+            }
+          },
+          option() {
+            this.systemRunTime ++;
+            this.calculateRatio(this.readyQueue);
+            this.methodList[this.activeType]();
+            this.calculateWait(this.readyQueue);
+          },
+          calculateRatio(arr) {
+            for(let item of arr) {
+              item.ratio = Math.floor((1+item.waitTime/item.needTime) * 100) / 100;
+            }
+          },
+          calculateWait(arr) {
+            for(let item of arr) {
+              item.waitTime++;
+            }
+          },
+          init() {
+            this.activeQueue = this.queue[0];
+            for(let i=0;i<this.progressCount;i++) {
+              this.createPCB();
+            }
+            switch(this.activeType) {
+              case 0: this.readyQueue.sort((a,b)=> a.arriveTime-b.arriveTime);break;
+              case 1: this.readyQueue.sort((a,b)=> a.arriveTime-b.arriveTime);this.timeSlice = this.timeSliceSize[0];break;
+              case 2: this.readyQueue.sort((a,b)=> a.priority-b.priority);break;
+              case 3: this.level = 0;break;
+            }
+            if(!this.isRuning) {
+              this.run();
+            }
+            this.isRuning = true;
+          },
+          createPCB() {
+            const pcb = new PCB(this.cnt++);
+            this.readyQueue.push(pcb);
+          },
+          selectQueue(index) {
+            this.activeQueue = this.queue[index]; 
+          },
+          initQueue() {
+            if(this.runQueue.length === 0) {
+              if(this.readyQueue.length !== 0) this.runQueue.push(this.readyQueue.shift());
+              else {
+                this.exit();
+                return ;
+              }
+            }
+          },
+          initTimeSlice(flag) {
+            this.timeSlice = flag?this.timeSliceSize[this.level]:this.timeSliceSize[0];
+            if(runQueue.length!==0) {
+              if(flag) {
+                if(this.level !== this.lastLevel) {
+                  this.readyQueues[this.level+1].push(this.runQueue.shift());
+                } else {
+                  this.readyQueues[this.level].push(this.runQueue.shift());
+                }
+              } else {
+                this.readyQueue.push(this.runQueue.shift());
+              }
+            } 
+            if(flag) {
+              if(readyQueues[this.level].length === 0) {
+                if(this.level!==this.lastLevel)this.level++;
+                else {
+                  this.level = 0;
+                  this.exit();
+                  return;
+                }
+              }
+              this.runQueue.push(this.readyQueues[this.level].shift())
+            } else {
+              if(readyQueue.length!==0) {
+                this.runQueue.push(this.readyQueue.shift());
+              }
+            }
+          },
+          FCFS() {
+            this.initQueue();
+            if(!this.isRuning)return ;
+            if(runQueue.length !== 0) {
+              this.runQueue[0].runTime++;
+              if(runQueue[0].runTime >= runQueue[0].needTime) this.completeQueue.push(this.runQueue.shift());
+            }
+          },
+          RR(flag=0){
+            if(this.timeSlice === 0) {
+              this.$nextTick(this.initTimeSlice(flag));
+            }
+            this.initQueue();
+            if(!this.isRuning)return ;
+            this.runQueue[0].runTime++;
+            if(runQueue[0].runTime >= runQueue[0].needTime) {
+              this.completeQueue.push(this.runQueue.shift());
+              this.initTimeSlice(flag);
+            }
+            this.timeSlice--;
+          },
+          PS() {
+            this.FCFS();
+          },
+          RRMF() {
+            this.RR(1);
+          },
+          HRN() {
+            this.readyQueue.sort((a,b)=> a.ratio-b.ratio);
+            this.FCFS();
+          },
+          exit() {
+            console.log(1);
+            this.isRuning = false;
+            clearInterval(this.timer);
+          }
+        }
+      };
+      const app = Vue.createApp(App);
+      app.use(ElementPlus);
+      app.mount("#app");
+    </script>
+  </body>
+</html>
