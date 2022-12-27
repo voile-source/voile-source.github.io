@@ -11,11 +11,11 @@ h1,h2,h3,h4,h5,h6,p,span,a,input,div{
   font-family: OppoSans;
 }
 
-/* article p{
+article p{
   margin: 5px 0;
   font-size: 18px;
   line-height: 30px;
-} */
+}
 
 /* .nexmoe-post img {
   margin: 10px 0;
@@ -128,12 +128,16 @@ h1,h2,h3,h4,h5,h6,p,span,a,input,div{
 }
 
 #nexmoe-content .nexmoe-post .nexmoe-post-copyright {
+  margin-left: 2px;
+  margin-right: 2px;
   border-radius: 10px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 #nexmoe-content .nexmoe-post-footer {
   background: #fff;
+  margin-left: 2px;
+  margin-right: 2px;
   margin-bottom: 15px;
   border-radius: 10px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

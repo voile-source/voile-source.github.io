@@ -4,7 +4,7 @@
 
 <head>
     
-    <title>给我赞助 - volit的个人博客</title>
+    <title>使用socket.io搭建一个简易聊天室 - volit的个人博客</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -12,28 +12,35 @@
     
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="给我赞助">
-<meta property="og:url" content="https://voilt-sourse.github.io/donate.html">
+    <meta name="description" content="1.定义 socket.io 是一个可以在客户端和服务器之间实现 低延迟, 双向 和 基于事件的 通信的库。它建立在 websocket 之上，且当浏览器不支持 websocket 时会自动切换为 HTTP 长轮询或自动重新连接。   ps.虽然 socket.io 可能使用 websocket 进行传输，但是由于它为每个数据包添加了额外的元数据，所以 websocket 客户端无法连接 sock">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用socket.io搭建一个简易聊天室">
+<meta property="og:url" content="https://voilt-sourse.github.io/2022/12/27/%E5%88%9D%E8%AF%86socket-io/index.html">
 <meta property="og:site_name" content="volit的个人博客">
+<meta property="og:description" content="1.定义 socket.io 是一个可以在客户端和服务器之间实现 低延迟, 双向 和 基于事件的 通信的库。它建立在 websocket 之上，且当浏览器不支持 websocket 时会自动切换为 HTTP 长轮询或自动重新连接。   ps.虽然 socket.io 可能使用 websocket 进行传输，但是由于它为每个数据包添加了额外的元数据，所以 websocket 客户端无法连接 sock">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-25T05:00:04.881Z">
-<meta property="article:modified_time" content="2022-11-25T05:00:04.881Z">
+<meta property="og:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202212262244531.webp">
+<meta property="article:published_time" content="2022-12-27T06:39:09.000Z">
+<meta property="article:modified_time" content="2022-12-27T06:41:22.644Z">
 <meta property="article:author" content="volit">
+<meta property="article:tag" content="websocket">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="聊天室">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202212262244531.webp">
     
 <link rel="stylesheet" href="/lib/fancybox/fancybox.css">
 <link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1672123319932">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1672123319941">
     
         <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3792936_o5r7gg84t8.css">
     
-    <link rel="stylesheet" href="/css/style.css?v=1672123319932">
+    <link rel="stylesheet" href="/css/style.css?v=1672123319941">
     
-        <link rel="stylesheet" href="/custom.css?v=1672123319932">
+        <link rel="stylesheet" href="/custom.css?v=1672123319941">
     
 <meta name="generator" content="Hexo 5.4.2"></head>
 
@@ -242,31 +249,64 @@
 
   <article>
       
-          <div class="nexmoe-post-cover" style="padding-bottom: 34.72222222222222%;"> 
-              <img data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202211261915731.webp" alt="给我赞助" loading="lazy">
-              <h1>给我赞助</h1>
+          <div class="nexmoe-post-cover" style="padding-bottom: 41.66666666666667%;"> 
+              <img src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202212202257513.webp" alt="使用socket.io搭建一个简易聊天室" loading="lazy">
+              <h1>使用socket.io搭建一个简易聊天室</h1>
           </div>
       
       
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2022年11月25日</a>
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年12月27日</a>
 </div>
 
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
     
-        <a><i class="nexmoefont icon-areachart"></i>约0字</a>
-        <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要1分钟</a>
+        <a><i class="nexmoefont icon-areachart"></i>约560字</a>
+        <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要2分钟</a>
     
 </div>
 
-      
+      <h4 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h4><blockquote>
+<p>socket.io 是一个可以在客户端和服务器之间实现 <strong>低延迟</strong>, <strong>双向</strong> 和 <strong>基于事件的</strong> 通信的库。它建立在 websocket 之上，且当浏览器不支持 websocket 时会自动切换为 HTTP 长轮询或自动重新连接。</p>
+</blockquote>
+<p><img data-fancybox="gallery" src="https://volit.oss-cn-guangzhou.aliyuncs.com/image/202212262244531.webp" alt="Diagram of a communication between a server and a client" data-caption="Diagram of a communication between a server and a client" loading="lazy"></p>
+<p><em>ps.虽然 socket.io 可能使用 websocket 进行传输，但是由于它为每个数据包添加了额外的元数据，所以 websocket 客户端无法连接 socket.io 客户端，而 socket.io 客户端同样也无法连接 websocket 客户端。</em></p>
+<h4 id="2-特点"><a href="#2-特点" class="headerlink" title="2.特点"></a>2.特点</h4><p>（1）HTTP 长轮询回退</p>
+<p>​ 若无法建立 Websocket 连接，将自动回退为 HTTP 长轮询</p>
+<p>（2）自动重新连接</p>
+<p>​ 在某些情况下，服务器和客户端之间的 websocket 连接可能会中断，且连接双方可能都不知道链接断开的状态。而 socket.io 包含一个心跳机制来定期检测客户端的连接状态。当客户端最终断开连接，它会以指数回退延迟自动重新连接，以免服务器不堪重负。</p>
+<p>（3）数据包缓冲</p>
+<p>​ 当客户端断开连接时，数据包会自动缓冲，并在重新连接时发送</p>
+<p>（4）广播/单播</p>
+<p>​ socket.io 提供了可以方便的对消息进行广播和单播的 api</p>
+<p>（5）多路复用</p>
+<p>​ 可以通过单条共享连接拆分应用程序的逻辑，实际应用上可以理解为聊天室里的房间</p>
+<h4 id="3-实例"><a href="#3-实例" class="headerlink" title="3.实例"></a>3.实例</h4><p>（1）安装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">npm install socket.<span class="hljs-property">io</span><br></code></pre></td></tr></table></figure>
+
+<p>（2）初始化</p>
+<p>服务器端：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> &#123; <span class="hljs-title class_">Server</span> &#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;socket.io&quot;</span>);<br><br><span class="hljs-keyword">const</span> io = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Server</span>(<span class="hljs-number">3000</span>, &#123;<br>  <span class="hljs-comment">/* options */</span><br>&#125;);<br><br>io.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;connection&quot;</span>, <span class="hljs-function">(<span class="hljs-params">socket</span>) =&gt;</span> &#123;<br>  <span class="hljs-comment">// ...</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>客户端：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;script src=<span class="hljs-string">&quot;/socket.io/socket.io.js&quot;</span>&gt;&lt;/script&gt;<br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-keyword">const</span> socket = <span class="hljs-title function_">io</span>();</span></span><br><span class="language-javascript"><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>（3）发送消息</p>
+<p>服务器端：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript">io.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;connection&quot;</span>, <span class="hljs-function">(<span class="hljs-params">socket</span>) =&gt;</span> &#123;<br>  socket.<span class="hljs-title function_">on</span>(<span class="hljs-params"><span class="hljs-string">&quot;send_msg&quot;</span>,(data)</span>)&#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data);<br>      io.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&quot;send_msg&quot;</span>,data); <span class="hljs-comment">//群发消息</span><br>      socket.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&quot;send_msg&quot;</span>,data); <span class="hljs-comment">//私发消息</span><br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>客户端：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;script&gt;<br>  <span class="hljs-keyword">const</span> socket = <span class="hljs-title function_">io</span>();<br><br>  socket.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&quot;send_msg&quot;</span>,<span class="hljs-string">&quot;你好&quot;</span>);<br>  socket.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;send_msg&quot;</span>,<span class="hljs-function">(<span class="hljs-params">msg</span>)=&gt;</span> &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(msg);<br>  &#125;)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>​ 通过上述代码就可以实现一个基本聊天室的雏形了，总体操作实现起来非常简单。</p>
+
   </article>
 
   
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>volit<br>
-        <strong>本文链接：</strong><a href="https://voilt-sourse.github.io/donate.html" title="https:&#x2F;&#x2F;voilt-sourse.github.io&#x2F;donate.html" target="_blank" rel="noopener">https:&#x2F;&#x2F;voilt-sourse.github.io&#x2F;donate.html</a><br>
+        <strong>本文链接：</strong><a href="https://voilt-sourse.github.io/2022/12/27/%E5%88%9D%E8%AF%86socket-io/" title="https:&#x2F;&#x2F;voilt-sourse.github.io&#x2F;2022&#x2F;12&#x2F;27&#x2F;%E5%88%9D%E8%AF%86socket-io&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;voilt-sourse.github.io&#x2F;2022&#x2F;12&#x2F;27&#x2F;%E5%88%9D%E8%AF%86socket-io&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -277,6 +317,10 @@
   
   <div class="nexmoe-post-meta nexmoe-rainbow">
     
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/websocket/" rel="tag">websocket</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%81%8A%E5%A4%A9%E5%AE%A4/" rel="tag">聊天室</a>
     
 </div>
 
@@ -305,6 +349,13 @@
                       
                         
                           
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">1.定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%89%B9%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">2.特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%AE%9E%E4%BE%8B"><span class="toc-number">3.</span> <span class="toc-text">3.实例</span></a></li></ol>
+                                  </div>
+                              </button>
                           
                           
                       
@@ -337,7 +388,7 @@
 
  
 
-<script async src="/js/app.js?v=1672123319933"></script>
+<script async src="/js/app.js?v=1672123319947"></script>
 
 
 
